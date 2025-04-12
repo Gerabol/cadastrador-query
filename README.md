@@ -1,13 +1,26 @@
 # cadastrador-query
-Aplicação criada para fazer jus a tarefa do curso full stack - UNIPE
-Utilize uma ferramenta web (MindMeister.com / Draw.io) para elaborar
-um Mapa Mental ou Diagrama de Projeto, contendo:
-• Nome do projeto
-• Objetivo da aplicação
-• Funcionalidades principais (mínimo viável)
-• Divisão de camadas (front, back, dados – mesmo que o foco agora seja
-só front)
-• Telas ou componentes principais
-• Campos de formulário (se houver)
-• Interações esperadas (ex: clicar, buscar, enviar, exibir...)
+Aplicação criada para fazer jus a tarefa do curso full stack - UNIPE.
+
+Utilize uma ferramenta web (MindMeister.com / Draw.io) para elaborar um Mapa Mental ou Diagrama de Projeto, contendo:
+
+- **Nome do projeto**
+- Cadastrador-Querys
+- 
+- **Objetivo da aplicação**
+-  O Objetivo da aplicação é cadastrar querys utilizadas no dia a dia de forma a armazenar todo o conteúdo em um único repositório, evitando assim guardá-los em pastas, o que dificulta a localização. Existirá tags que ajudem a localizar as querys por tema e outros detalhes.
+
+- **Funcionalidades principais (mínimo viável)**
+- Logar
+- Pesquisar, Incluir, Alterar e desativar visualização de querys.
+- Pesquisar por palavra-chave, Tipo de banco, tabelas, Tags, data de  criação ou alteração, campos da query.
+- 
+- **Divisão de camadas (front, back, dados – mesmo que o foco agora seja só front)**
+- Front.....: React com Bootstrap
+- Back-End..: Node
+- Banco.....: mongoDb 
+- 
+- **Telas ou componentes principais**
+- **Campos de formulário (se houver)**
+- **Interações esperadas (ex: clicar, buscar, enviar, exibir...)**
+
 OBS: Vamos dar continuidade neste projeto no próximo encontro!
