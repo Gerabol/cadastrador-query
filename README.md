@@ -7,8 +7,8 @@
  Cadastrador-Querys
 
 - ## **Nome da Equipe**
- **Robson Palmeira, **
- **Geraldo Valencia, **
+ **Robson Palmeira**, 
+ **Geraldo Valencia**, 
  **Artur Freitas**
  
 - ## **Objetivo da aplicação**
@@ -26,14 +26,14 @@
  
 - ## Telas do Sistema
 
-### Tela de Cadastro de Query
-![Tela Cadastro de Query](frontend-node/public/img/screen/scr01.png)
+  ### Tela de Cadastro de Query
+  ![Tela Cadastro de Query](frontend-node/public/img/screen/scr01.png)
 
-### Tela Inicial com Dashboard
-![Tela Inicial](frontend-node/public/img/screen/scr02.png)
+  ### Tela Inicial com Dashboard
+  ![Tela Inicial](frontend-node/public/img/screen/scr02.png)
 
-### Tela de Cadastro de Autor
-![Tela Cadastro de Autor](frontend-node/public/img/screen/scr03.png)
+  ### Tela de Cadastro de Autor
+  ![Tela Cadastro de Autor](frontend-node/public/img/screen/scr03.png)
 
 - ## **Campos de formulário (se houver)**
 - ## **Interações esperadas (ex: clicar, buscar, enviar, exibir...)**
