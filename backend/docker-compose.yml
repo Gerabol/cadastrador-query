@@ -1,0 +1,21 @@
+version: '3.8'
+services:
+  mongo:
+    image: mongo:6
+    container_name: mongo-query
+    ports: ["27017:27017"]
+    networks: [rede_cadastrador]
+    volumes: [mongo-data:/data/db]
+  backend:
+    build: ./
+    container_name: backend-query
+    ports: ["3000:3000"]
+    depends_on: [mongo]
+    networks: [rede_cadastrador]
+networks:
+  rede_cadastrador:
+    driver: bridge
+volumes:
+  mongo-data:
+
+## RODA PRIMEIRO ESSE PARA CRIAR A REDE

@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cadastro de Queries</title>
+  <script type="importmap">
+  {
+    "imports": {
+      "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+    }
+  }
+  </script>
+
+  <!-- Estilos -->
+  <link href="fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700,800,900" rel="stylesheet">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet">
+
+  <style>
+    textarea.sql-fixo {
+      height: 300px;
+      resize: none;
+    }
+    .db-icon {
+      max-height: 24px;
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+
+  <!-- Scripts base -->
+  <script src="js/jquery/jquery.min.js"></script>
+  <script src="js/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="js/jquery-easing/jquery.easing.min.js"></script>
+  <script src="js/sb-admin-2.min.js"></script>
+
+  <!-- Prism.js -->
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/prism.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-sql.min.js"></script>
+
+  <!-- Vue App -->
+  <script type="module">
+    import { createApp, defineComponent } from 'vue';
+    import AppLayout from './components/AppLayout.js';
+
+    const QueryApp = defineComponent({
+      components: { AppLayout },
+      template: `
+        <AppLayout
+          pageTitle="Cadastrador Query"
+          pageHeading="Cadastrar Query"
+          addButtonText="Query"
+          cardHeader="Preencha os campos para incluir a query"
+        >
+          <div v-if="mensagemQuery" :class="'alert ' + (erroQuery ? 'alert-danger' : 'alert-success')">
+            {{ mensagemQuery }}
+          </div>
+
+          <form @submit.prevent="cadastrarQuery">
+            <input v-model="form.titulo" class="form-control mb-2" placeholder="Título" required>
+            <select v-model="form.tipo_banco" class="form-control mb-2" required>
+              <option disabled value="">Tipo de banco</option>
+              <option>PostgreSQL</option>
+              <option>SQL Server</option>
+              <option>Adabas</option>
+            </select>
+            <textarea v-model="form.query" class="form-control mb-2 sql-fixo" placeholder="Query SQL" required></textarea>
+            <input v-model="form.tabelas" class="form-control mb-2" placeholder="Tabelas (vírgula)">
+            <input v-model="form.campos" class="form-control mb-2" placeholder="Campos (vírgula)">
+            <select v-model="form.autor_id" class="form-control mb-3" required>
+              <option disabled value="">Selecione o autor</option>
+              <option v-for="a in autores" :value="a._id">{{ a.nome }}</option>
+            </select>
+            <button class="btn btn-success">Cadastrar Query</button>
+          </form>
+
+          <hr />
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Últimas 3 queries cadastradas</h6>
+            </div>
+            <div class="card-body">
+              <div v-if="ultimasQueries.length === 0" class="text-center py-3">
+                <i class="fas fa-info-circle text-info mr-1"></i> Nenhuma query cadastrada até o momento.
+              </div>
+              <div v-for="query in ultimasQueries" :key="query._id" class="card mb-3">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                  <h6 class="m-0 font-weight-bold">{{ query.titulo }}</h6>
+                  <img 
+                    :src="iconeBanco(query.tipo_banco)" 
+                    :alt="query.tipo_banco"
+                    class="db-icon"
+                    :title="'Banco: ' + query.tipo_banco"
+                  />
+                </div>
+                <div class="card-body">
+                  <div class="row mb-2">
+                    <div class="col-md-6">
+                      <small class="text-muted">Autor:</small>
+                      <span>{{ query.autor_id.nome }}</span>
+                    </div>
+                    <div class="col-md-6">
+                      <small class="text-muted">Tabelas:</small>
+                      <span>{{ formatarTabelas(query.tabelas) }}</span>
+                    </div>
+                  </div>
+                  <div class="mb-2">
+                    <small class="text-muted">Campos:</small>
+                    <span>{{ formatarCampos(query.campos) }}</span>
+                  </div>
+                  <div class="bg-light p-2 rounded">
+                    <pre class="m-0"><code class="language-sql" v-html="destacarQuery(query.query)"></code></pre>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </AppLayout>
+      `,
+      data() {
+        return {
+          form: {
+            titulo: '', tipo_banco: '', query: '',
+            tabelas: '', campos: '', autor_id: ''
+          },
+          autores: [],
+          queries: [],
+          ultimasQueries: [],
+          mensagemQuery: '',
+          erroQuery: false,
+          timeoutId: null
+        };
+      },
+      mounted() {
+        this.carregarAutores();
+        this.carregarQueries();
+      },
+      methods: {
+        async carregarAutores() {
+          try {
+            const res = await fetch('/api/autores');
+            this.autores = await res.json();
+          } catch (err) {
+            console.error('Erro ao carregar autores:', err);
+          }
+        },
+        destacarQuery(sql) {
+          if (!window.Prism || !Prism.highlight) return sql;
+          return Prism.highlight(sql, Prism.languages.sql, 'sql');
+        },
+        iconeBanco(tipo) {
+          const mapa = {
+            'PostgreSQL': 'PostgreSQL.png',
+            'SQL Server': 'SQL Server.png',
+            'Adabas': 'adabas.png'
+          };
+          return 'img/bancos/' + (mapa[tipo] || 'default.png');
+        },
+        async carregarQueries() {
+          try {
+            const ultimasRes = await fetch('/api/ultimas-3-queries');
+            if (ultimasRes.ok) {
+              this.ultimasQueries = await ultimasRes.json();
+            } else {
+              const allQueriesRes = await fetch('/api/queries');
+              const todasQueries = await allQueriesRes.json();
+              this.queries = todasQueries;
+              this.ultimasQueries = todasQueries
+                .sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+                .slice(0, 3);
+            }
+
+            this.$nextTick(() => {
+              if (window.Prism) Prism.highlightAll();
+            });
+          } catch (err) {
+            console.error('Erro ao carregar queries:', err);
+            this.ultimasQueries = [];
+          }
+        },
+        formatarTabelas(tabelas) {
+          return Array.isArray(tabelas) && tabelas.length ? tabelas.join(', ') : 'Nenhuma';
+        },
+        formatarCampos(campos) {
+          return Array.isArray(campos) && campos.length ? campos.join(', ') : 'Nenhum';
+        },
+        mostrarMensagem(mensagem, erro = false) {
+          if (this.timeoutId) clearTimeout(this.timeoutId);
+          this.mensagemQuery = mensagem;
+          this.erroQuery = erro;
+          this.timeoutId = setTimeout(() => {
+            this.mensagemQuery = '';
+          }, 3000);
+        },
+        async cadastrarQuery() {
+          try {
+            const payload = {
+              ...this.form,
+              tabelas: this.form.tabelas.split(',').map(x => x.trim()),
+              campos: this.form.campos.split(',').map(x => x.trim())
+            };
+            const res = await fetch('/api/queries', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(payload)
+            });
+            if (!res.ok) throw await res.json();
+
+            this.mostrarMensagem('Query cadastrada com sucesso!');
+            this.form = { titulo: '', tipo_banco: '', query: '', tabelas: '', campos: '', autor_id: '' };
+            this.carregarQueries();
+          } catch (err) {
+            this.mostrarMensagem(err.error || 'Erro ao cadastrar query', true);
+          }
+        }
+      }
+    });
+
+    createApp(QueryApp).mount('#app');
+  </script>
+</body>
+</html>

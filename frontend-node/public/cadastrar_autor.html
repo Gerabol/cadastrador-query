@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cadastro de Autores</title>
+  <script type="importmap">
+  {
+    "imports": {
+      "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+    }
+  }
+  </script>
+
+  <!-- Custom fonts for this template-->
+  <link href="fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+  <div id="app"></div>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="js/jquery/jquery.min.js"></script>
+  <script src="js/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="js/jquery-easing/jquery.easing.min.js"></script>
+  <script src="js/sb-admin-2.min.js"></script>
+
+  <script type="module">
+    import { createApp, defineComponent } from 'vue';
+    import AppLayout from './components/AppLayout.js';
+
+    const AutorApp = defineComponent({
+      components: {
+        AppLayout
+      },
+      template: `
+        <AppLayout 
+          pageTitle="Cadastrador Autor" 
+          pageHeading="Cadastrar Autor"
+          addButtonText="Autor"
+          cardHeader="Preencha os campos para incluir o autor"
+          buttonLink="cadastrar_autor.html"
+        >
+          <div v-if="mensagemAutor" :class="'alert ' + (erroAutor ? 'alert-danger' : 'alert-success')">
+            {{ mensagemAutor }}
+          </div>
+
+          <form @submit.prevent="cadastrarAutor">
+            <input v-model="autor.nome" class="form-control mb-2" placeholder="Nome" required>
+            <input v-model="autor.email" class="form-control mb-2" placeholder="Email" required>
+            <input v-model="autor.setor" class="form-control mb-3" placeholder="Setor">
+            <button class="btn btn-success">Cadastrar Autor</button>
+          </form>
+
+          <hr />
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Autores cadastrados</h6>
+            </div>
+            <div class="card-body">
+              <div v-if="autores.length === 0" class="text-center py-3">
+                <i class="fas fa-info-circle text-info mr-1"></i> Nenhum autor cadastrado até o momento.
+              </div>
+              <ul class="list-group">
+                <li class="list-group-item" v-for="a in autores" :key="a._id">
+                  <b>{{ a.nome }}</b><br>
+                  <small>Email: {{ a.email }}</small><br>
+                  <small>Setor: {{ a.setor }}</small>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </AppLayout>
+      `,
+      data() {
+        return {
+          autor: { nome: '', email: '', setor: '' },
+          autores: [],
+          mensagemAutor: '',
+          erroAutor: false,
+          timeoutId: null
+        };
+      },
+      mounted() {
+        this.carregarAutores();
+      },
+      methods: {
+        async carregarAutores() {
+          try {
+            const res = await fetch('/api/autores');
+            this.autores = await res.json();
+          } catch (err) {
+            console.error('Erro ao carregar autores:', err);
+          }
+        },
+        mostrarMensagem(mensagem, erro = false) {
+          if (this.timeoutId) clearTimeout(this.timeoutId);
+          this.mensagemAutor = mensagem;
+          this.erroAutor = erro;
+          this.timeoutId = setTimeout(() => {
+            this.mensagemAutor = '';
+          }, 3000);
+        },
+        async cadastrarAutor() {
+          try {
+            const res = await fetch('/api/autores', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(this.autor)
+            });
+            if (!res.ok) throw await res.json();
+            this.mostrarMensagem('Autor cadastrado com sucesso!');
+            this.autor = { nome: '', email: '', setor: '' };
+            this.carregarAutores();
+          } catch (err) {
+            this.mostrarMensagem(err.error || 'Erro ao cadastrar autor', true);
+          }
+        }
+      }
+    });
+
+    createApp(AutorApp).mount('#app');
+  </script>
+</body>
+</html>

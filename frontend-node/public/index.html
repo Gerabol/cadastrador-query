@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Cadastro de Queries</title>
+  <script type="importmap">
+  {
+    "imports": {
+      "vue": "https://unpkg.com/vue@3/dist/vue.esm-browser.js"
+    }
+  }
+  </script>
+
+  <link href="fontawesome-free/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,300,400,600,700,800,900" rel="stylesheet">
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.datatables.net/1.13.6/css/dataTables.bootstrap5.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism.css" rel="stylesheet">
+
+  <style>
+    textarea.sql-fixo {
+      height: 300px;
+      resize: none;
+    }
+    .logo-banco {
+      height: 20px;
+      vertical-align: middle;
+      margin-right: 5px;
+    }
+    .modal-xl {
+      max-width: 90% !important;
+    }
+  </style>
+</head>
+<body>
+  <div id="app"></div>
+
+  <div class="modal fade" id="modalQuery" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Visualizar Query</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+        </div>
+        <div class="modal-body">
+          <pre><code class="language-sql" id="codigoQuery"></code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/jquery/jquery.min.js"></script>
+  <script src="js/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="js/jquery-easing/jquery.easing.min.js"></script>
+  <script src="js/sb-admin-2.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/components/prism-core.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/plugins/autoloader/prism-autoloader.min.js"></script>
+
+  <script type="module">
+    import { createApp, defineComponent, nextTick } from 'vue';
+    import AppLayout from './components/AppLayout.js';
+
+    const DashboardApp = defineComponent({
+      components: { AppLayout },
+      template: `
+        <AppLayout 
+          pageTitle="Cadastrador Query" 
+          pageHeading="Início"
+          addButtonText="Query"
+          cardHeader="Últimas querys cadastradas"
+          buttonLink="cadastrar_query.html"
+        >
+          <div class="row">
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Querys Cadastradas</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{ estatisticas.totalQueries }}</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-database fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-primary shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Tipo de Banco de dados com maior query</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{ estatisticas.tipoBancoMaisUsado.tipo }}</div>
+                      <div class="small text-gray-600">Total: {{ estatisticas.tipoBancoMaisUsado.quantidade }}</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-server fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-info shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Tabela mais cadastrada</div>
+                      <div class="row no-gutters align-items-center">
+                        <div class="col-auto">
+                          <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">{{ estatisticas.tabelaMaisCadastrada.tabela }}</div>
+                          <div class="small text-gray-600">Ocorrências: {{ estatisticas.tabelaMaisCadastrada.quantidade }}</div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-xl-3 col-md-6 mb-4">
+              <div class="card border-left-warning shadow h-100 py-2">
+                <div class="card-body">
+                  <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                      <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Etiqueta disponível para usar</div>
+                      <div class="h5 mb-0 font-weight-bold text-gray-800">{{ estatisticas.totalEtiquetas }}</div>
+                    </div>
+                    <div class="col-auto">
+                      <i class="fas fa-tags fa-2x text-gray-300"></i>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <h6 class="m-0 font-weight-bold text-primary">Últimas querys cadastradas</h6>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table id="dataTable" class="table table-bordered" width="100%">
+                  <thead>
+                    <tr>
+                      <th>Título</th>
+                      <th>Tipo de Banco</th>
+                      <th>Autor</th>
+                      <th>Tabelas</th>
+                      <th>Campos</th>
+                      <th class="text-center">Ações</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="query in ultimasQueries" :key="query._id">
+                      <td>{{ query.titulo }}</td>
+                      <td>
+                        <img class="logo-banco" :src="'/img/bancos/' + normalizarTipoBanco(query.tipo_banco) + '.png'" :alt="query.tipo_banco" />
+                        <p style='display:none'>{{ query.tipo_banco }}</p>
+                      </td>
+                      <td>{{ query.autor_id.nome }}</td>
+                      <td>{{ formatarTabelas(query.tabelas) }}</td>
+                      <td>{{ query.campos }}</td>
+                      <td class="text-center">
+                        <button class="btn btn-primary btn-sm mx-1" @click="abrirModal(query.query)">
+                          <i class="fas fa-eye"></i>
+                        </button>
+                        <a :href="'editar_query.html?id=' + query._id" class="btn btn-warning btn-sm">
+                          <i class="fas fa-edit"></i>
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </AppLayout>
+      `,
+      data() {
+        return {
+          estatisticas: {
+            totalQueries: 0,
+            tipoBancoMaisUsado: { tipo: '', quantidade: 0 },
+            tabelaMaisCadastrada: { tabela: '', quantidade: 0 },
+            totalEtiquetas: 0
+          },
+          ultimasQueries: [],
+          dataTable: null
+        };
+      },
+      methods: {
+        async carregarEstatisticas() {
+          const res = await fetch('/api/estatisticas');
+          if (res.ok) this.estatisticas = await res.json();
+        },
+        async carregarUltimasQueries() {
+          const res = await fetch('/api/ultimas-queries');
+          if (res.ok) {
+            this.ultimasQueries = await res.json();
+            this.$nextTick(this.inicializarDataTable);
+          }
+        },
+        inicializarDataTable() {
+          if ($.fn.DataTable.isDataTable('#dataTable')) $('#dataTable').DataTable().destroy();
+          $('#dataTable').DataTable({
+            language: { url: '//cdn.datatables.net/plug-ins/1.13.6/i18n/pt-BR.json' },
+            order: [[0, 'asc']],
+            pageLength: 5,
+            lengthMenu: [[5, 10, 25, 50, -1], [5, 10, 25, 50, "Todos"]]
+          });
+        },
+        formatarTabelas(tabelas) {
+          if (!Array.isArray(tabelas)) return 'Nenhuma';
+          return tabelas.length === 1 ? tabelas[0] : `${tabelas[0]} + ${tabelas.length - 1} outras`;
+        },
+        normalizarTipoBanco(tipo) {
+          const mapa = {
+            'PostgreSQL': 'PostgreSQL',
+            'SQL Server': 'SQLServer',
+            'Adabas': 'adabas'
+          };
+          return mapa[tipo] || 'default';
+        },
+        abrirModal(sql) {
+          const destaque = window.Prism ? Prism.highlight(sql, Prism.languages.sql, 'sql') : sql;
+          document.getElementById('codigoQuery').innerHTML = destaque;
+          const modal = new bootstrap.Modal(document.getElementById('modalQuery'));
+          modal.show();
+        }
+      },
+      mounted() {
+        this.carregarEstatisticas();
+        this.carregarUltimasQueries();
+      },
+      beforeUnmount() {
+        if (this.dataTable) this.dataTable.destroy();
+      }
+    });
+
+    createApp(DashboardApp).mount('#app');
+  </script>
+</body>
+</html>

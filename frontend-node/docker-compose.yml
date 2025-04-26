@@ -1,0 +1,13 @@
+version: '3.8'
+services:
+  frontend:
+    build: ./
+    container_name: frontend-query
+    ports: ["5173:5173"]
+    networks: [rede_cadastrador]
+networks:
+  rede_cadastrador:
+    external: true
+    name: backend_rede_cadastrador
+    
+## RODA POR ULTIMO PARA USAR A REDE DO BACK
