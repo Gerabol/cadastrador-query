@@ -4,7 +4,7 @@ export default {
     props: {
       copyright: {
         type: String,
-        default: 'Copyright © Cadastrador Query CGE'
+        default: 'Copyright © Cadastrador Query'
       }
     },
     template: `

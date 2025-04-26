@@ -1,4 +1,3 @@
-// AppLayout.js
 import SidebarMenu from './SidebarMenu.js';
 import TopHeader from './TopHeader.js';
 import PageFooter from './PageFooter.js';

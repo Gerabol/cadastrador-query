@@ -24,7 +24,7 @@ export default {
         <li class="nav-item active">
           <a class="nav-link" href="index.html">
             <i class="fas fa-tv"></i>
-            <span>Gerencia do SIAF</span>
+            <span>Gerencia de TI</span>
           </a>
         </li>
   
