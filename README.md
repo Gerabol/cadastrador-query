@@ -20,11 +20,21 @@
   Pesquisar por palavra-chave, Tipo de banco, tabelas, Tags, data de  criação ou alteração, campos da query.
 
 - ## **Divisão de camadas (front, back, dados – mesmo que o foco agora seja só front)**
-  Front.....: React com Bootstrap
+  Front.....: Vue com Bootstrap
   Back-End..: Node
   Banco.....: mongoDb 
  
-- ## **Telas ou componentes principais**
+- ## Telas do Sistema
+
+### Tela de Cadastro de Query
+![Tela Cadastro de Query](frontend-node/public/img/screen/scr01.png)
+
+### Tela Inicial com Dashboard
+![Tela Inicial](frontend-node/public/img/screen/scr02.png)
+
+### Tela de Cadastro de Autor
+![Tela Cadastro de Autor](frontend-node/public/img/screen/scr03.png)
+
 - ## **Campos de formulário (se houver)**
 - ## **Interações esperadas (ex: clicar, buscar, enviar, exibir...)**
 
