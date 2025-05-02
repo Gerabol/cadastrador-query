@@ -44,6 +44,22 @@ app.post('/queries', async (req, res) => {
   }
 });
 
+
+app.put('/queries/:id', async (req, res) => {
+  try {
+    const queryAtualizada = await Query.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true, runValidators: true }
+    );
+    res.json(queryAtualizada);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+});
+
+
+
 app.delete('/queries/:id', async (req, res) => {
   const result = await Query.findByIdAndUpdate(req.params.id, { ativo: 0 });
   res.json({ message: 'Query desativada com sucesso' });
