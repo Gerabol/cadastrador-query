@@ -36,7 +36,7 @@
   ![Tela Cadastro de Autor](frontend-node/public/img/screen/scr03.png)
 
 - ## **Estrutura de pastas do projeto**
-- ![Imagem da estrutura de pastas do projeto](frontend-node/public/img/estrutura.png) 
+- ![Imagem da estrutura de pastas do projeto](frontend-node/public/img/Estrutura.png) 
 
 
 │   LICENSE
