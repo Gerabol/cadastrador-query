@@ -4,7 +4,7 @@
  Diagrama de Projeto: FIGMA
 
 - ## **Nome do projeto**
- Cadastrador-Querys
+   Cadastrador-Querys
 
 - ## **Nome da Equipe**
    **Robson Palmeira**,
@@ -25,7 +25,7 @@
   Front.....: Vue com Bootstrap
 
   Back-End..: Node
-  
+
   Banco.....: mongoDb 
  
 - ## Telas do Sistema
