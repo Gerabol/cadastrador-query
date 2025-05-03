@@ -19,8 +19,8 @@ mongoose.connect('mongodb://mongo:27017/query_catalog', {
 });
 
 // Importa os modelos (schemas) de Autor e Query
-const Autor = require('./models_Autor');
-const Query = require('./models_Query');
+const Autor = require('./models/Autor');
+const Query = require('./models/Query');
 
 // Rota GET para listar todos os autores
 app.get('/autores', async (req, res) => {
