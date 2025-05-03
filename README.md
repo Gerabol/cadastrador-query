@@ -36,53 +36,12 @@
   ![Tela Cadastro de Autor](frontend-node/public/img/screen/scr03.png)
 
 - ## **Estrutura de pastas do projeto**
-- ![Imagem da estrutura de pastas do projeto](frontend-node/public/img/Estrutura.png) 
+- ![Imagem da estrutura de pastas do projeto](frontend-node/public/img/estrutura.png) 
 
 
-│   LICENSE
-│   README.md
-│
-├───backend
-│   │   docker-compose.yml
-│   │   Dockerfile
-│   │   package.json
-│   │   server.js
-│   │
-│   └───models
-│           Autor.js
-│           Query.js
-│
-└───frontend-node
-    │   docker-compose.yml
-    │   Dockerfile
-    │   package.json
-    │   server.js
-    │
-    └───public
-        │   cadastrar_autor.html
-        │   cadastrar_query.html
-        │   index.html
-        │
-        ├───components
-        │       AppLayout.js
-        │       PageFooter.js
-        │       SidebarMenu.js
-        │       TopHeader.js
-        │
-        ├───css
-        │       bootstrap.min.css
-        │
-        └───fontawesome-free
-            ├───css
-            ├───js
-            ├───less
-            ├───metadata
-            ├───scss
-            ├───sprites
-            ├───svgs
-            ├───jquery
-            └───jquery-easing
-
+- ## Roadmap do projeto do Sistema de cdastro de Query
+           
+- ![Imagem do roadmap do projeto](frontend-node/public/img/roadmap do projeto.png) 
 
 - ## **Campos de formulário (se houver)**
 - ## **Interações esperadas (ex: clicar, buscar, enviar, exibir...)**
