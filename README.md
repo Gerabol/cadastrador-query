@@ -39,7 +39,7 @@
 - ![Imagem da estrutura de pastas do projeto](frontend-node/public/img/estrutura.png) 
 
 
-- ## Roadmap do projeto do Sistema de cadastro de Query
+- ## Roadmap do projeto do Sistema de cdastro de Query
            
 - ![Imagem do roadmap do projeto](frontend-node/public/img/roadmap do projeto.png) 
 
