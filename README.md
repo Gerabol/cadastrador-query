@@ -37,50 +37,49 @@
 
 - ## **Estrutura de pastas do projeto**
 
-  ```text
-|   LICENSE
-|   README.md
-|   
-+---backend
-|   |   docker-compose.yml
-|   |   Dockerfile
-|   |   package.json
-|   |   server.js
-|   |   
-|   +---models
-|           Autor.js
-|           Query.js
-|           
-+---frontend-node
-    |   docker-compose.yml
-    |   Dockerfile
-    |   package.json
-    |   server.js
-    |   
-    +---public
-        |   cadastrar_autor.html
-        |   cadastrar_query.html
-        |   index.html
-        |   
-        +---components
-        |       AppLayout.js
-        |       PageFooter.js
-        |       SidebarMenu.js
-        |       TopHeader.js
-        |       
-        +---css
-        |       bootstrap.min.css
-        |       
-        +---fontawesome-free
-        |   +---css  
-        |   +---js  
-        |   +---less
-        |   +---metadata
-        |   +---scss
-        |   +---sprites    
-        |   +---svgs   
-        |   +---jquery
-        |   +---jquery-easing
+│   LICENSE
+│   README.md
+│
+├───backend
+│   │   docker-compose.yml
+│   │   Dockerfile
+│   │   package.json
+│   │   server.js
+│   │
+│   └───models
+│           Autor.js
+│           Query.js
+│
+└───frontend-node
+    │   docker-compose.yml
+    │   Dockerfile
+    │   package.json
+    │   server.js
+    │
+    └───public
+        │   cadastrar_autor.html
+        │   cadastrar_query.html
+        │   index.html
+        │
+        ├───components
+        │       AppLayout.js
+        │       PageFooter.js
+        │       SidebarMenu.js
+        │       TopHeader.js
+        │
+        ├───css
+        │       bootstrap.min.css
+        │
+        └───fontawesome-free
+            ├───css
+            ├───js
+            ├───less
+            ├───metadata
+            ├───scss
+            ├───sprites
+            ├───svgs
+            ├───jquery
+            └───jquery-easing
 
 
 - ## **Campos de formulário (se houver)**
