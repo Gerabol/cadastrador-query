@@ -36,12 +36,12 @@
   ![Tela Cadastro de Autor](frontend-node/public/img/screen/scr03.png)
 
 - ## **Estrutura de pastas do projeto**
-- ![Imagem da estrutura de pastas do projeto](frontend-node/public/img/estrutura.png) 
+  ![Imagem da estrutura de pastas do projeto](frontend-node/public/img/estrutura.png) 
 
 
 - ## Roadmap do projeto do Sistema de cdastro de Query
            
-- ![Imagem do roadmap do projeto](frontend-node/public/img/roadmap do projeto.png) 
+  ![Imagem do roadmap do projeto](frontend-node/public/img/roadmap_do_projeto.png) 
 
 - ## **Campos de formulário (se houver)**
 - ## **Interações esperadas (ex: clicar, buscar, enviar, exibir...)**
