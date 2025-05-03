@@ -7,9 +7,11 @@
  Cadastrador-Querys
 
 - ## **Nome da Equipe**
- **Robson Palmeira**, 
- **Geraldo Valencia**, 
- **Artur Freitas**
+   **Robson Palmeira**,
+
+   **Geraldo Valencia**,
+
+   **Artur Freitas**
  
 - ## **Objetivo da aplicação**
   O Objetivo da aplicação é cadastrar querys utilizadas no dia a dia de forma a armazenar todo o conteúdo em um único repositório, evitando assim guardá-los em pastas, o que dificulta a localização. Existirá tags que ajudem a localizar as querys por tema e outros detalhes.
@@ -21,7 +23,9 @@
 
 - ## **Divisão de camadas (front, back, dados – mesmo que o foco agora seja só front)**
   Front.....: Vue com Bootstrap
+
   Back-End..: Node
+  
   Banco.....: mongoDb 
  
 - ## Telas do Sistema
