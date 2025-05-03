@@ -32,7 +32,7 @@ export default {
     },
     copyright: {
       type: String,
-      default: 'Copyright © Cadastrador Query CGE'
+      default: 'Copyright © Cadastrador Query AGR'
     },
     buttonLink: {
       type: String,
