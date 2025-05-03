@@ -18,7 +18,7 @@ mongoose.connect('mongodb://mongo:27017/query_catalog', {
   useUnifiedTopology: true
 });
 
-// Importa os modelos (schemas) de Autor e Query.
+// Importa os modelos (schemas) de Autor e Query
 const Autor = require('./models_Autor');
 const Query = require('./models_Query');
 
